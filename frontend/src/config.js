@@ -1,0 +1,5 @@
+export const {
+  VITE_API_HOST: API_HOST,
+  VITE_TOKEN: TOKEN,
+  VITE_GOOGLE_MAPS_API_KEY: GOOGLE_API_KEY
+} = import.meta.env
