@@ -2,7 +2,6 @@ import 'dotenv/config'
 import express from 'express'
 import unitsRoutes from './routes/index.js'
 import { corsMiddleware } from './middleware/cors.js'
-import cors from 'cors'
 
 const app = express()
 app.use(express.json())
