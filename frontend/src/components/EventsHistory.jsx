@@ -12,7 +12,7 @@ export const EventsHistory = ({ id, name, show }) => {
         Historial de eventos
         {show && (
           <Link
-            target='blank'
+            target='_blank'
             to={`/reports/${id}?unit=${name}`}
             className='bg-blue-500 hover:bg-blue-700 rounded-sm px-2 py-1 text-sm hover:scale-105 transition text-white'
           >

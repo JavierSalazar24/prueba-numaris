@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useEventStore } from '../store/useEventStore'
 import { useReports } from '../hooks/useReports'
+import { MdOutlineSaveAlt } from 'react-icons/md'
+import { HiDocumentReport } from 'react-icons/hi'
 
 const FormEvents = ({ submit, loading, id }) => {
   const { handleSaveReport, isLoading } = useReports()
@@ -47,22 +49,26 @@ const FormEvents = ({ submit, loading, id }) => {
           name='end'
         />
       </div>
-      <button
-        className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed disabled:text-gray-400'
-        disabled={loading}
-      >
-        {loading ? 'Generando reporte...' : 'Generar Reporte'}
-      </button>
-
-      {events.length > 0 && (
+      <div className='flex gap-2 items-center justify-center flex-col md:flex-row'>
         <button
-          className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed disabled:text-gray-400'
-          onClick={() => handleSaveReport(id)}
-          disabled={isLoading}
+          className='flex items-center justify-center w-full bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed disabled:text-gray-400'
+          disabled={loading}
         >
-          {isLoading ? 'Guardando reporte...' : 'Guardar reporte'}
+          <HiDocumentReport fontSize={27} />
+          {loading ? 'Generando reporte...' : 'Generar reporte'}
         </button>
-      )}
+
+        {events.length > 0 && (
+          <button
+            className='flex items-center justify-center gap-1  w-full bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed disabled:text-gray-400'
+            onClick={() => handleSaveReport(id)}
+            disabled={isLoading}
+          >
+            <MdOutlineSaveAlt fontSize={27} />
+            {isLoading ? 'Guardando reporte...' : 'Guardar reporte'}
+          </button>
+        )}
+      </div>
     </form>
   )
 }
