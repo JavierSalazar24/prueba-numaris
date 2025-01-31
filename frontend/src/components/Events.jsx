@@ -9,7 +9,8 @@ import { Helmet } from 'react-helmet-async'
 import { Navbar } from './Navbar'
 
 const Events = () => {
-  const { isError, error, isLoading, name, events, handleRequest } = useEvents()
+  const { isError, error, isLoading, name, events, handleRequest, unitId } =
+    useEvents()
 
   return (
     <>
@@ -20,7 +21,7 @@ const Events = () => {
       <Navbar title={`Reporte de la unidad ${name}`} />
 
       <section className='container mx-auto p-4'>
-        <FormEvents submit={handleRequest} loading={isLoading} />
+        <FormEvents submit={handleRequest} loading={isLoading} id={unitId} />
 
         {isLoading ? (
           <Loading />
@@ -29,12 +30,12 @@ const Events = () => {
         ) : (
           events?.length > 0 && (
             <article className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <EventsHistory />
+              <EventsHistory id={unitId} name={name} show={true} />
               <MapView />
             </article>
           )
         )}
-        {events?.length === 0 && <Empty />}
+        {events?.mensaje && <Empty />}
       </section>
     </>
   )

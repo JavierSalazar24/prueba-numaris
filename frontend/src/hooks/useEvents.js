@@ -73,6 +73,7 @@ export const useEvents = () => {
     error,
     events,
     handleRequest,
-    name
+    name,
+    unitId
   }
 }

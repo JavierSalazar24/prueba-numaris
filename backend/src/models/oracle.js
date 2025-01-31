@@ -31,6 +31,7 @@ export class UnitsModel {
                         modelo LIKE :search OR 
                         anio LIKE :search OR 
                         color LIKE :search`
+
       binds = { search: `%${search}%` }
     }
 
@@ -45,21 +46,49 @@ export class UnitsModel {
     )
   }
 
-  static async getEvents({ id, dtini, dtfin }) {
-    const formattedDtini = format(dtini, 'yyyy-MM-dd HH:mm:ss')
-    const formattedDtfin = format(dtfin, 'yyyy-MM-dd HH:mm:ss')
+  static async addEvents(events, id) {
+    const query = `INSERT INTO reports (
+      name_device, imei, dt_msg, id_msg, id_msg_type, desc_msg, lat, lon, ubicacion,
+      vel, dtmsg, ignicion, odometro_kms, dir, nombre_grupo, idgps_units
+    ) VALUES (:1, :2, TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16)`
 
+    const values = events.map((event) => [
+      event.name_device,
+      event.imei,
+      format(event.dt_msg, 'yyyy-MM-dd HH:mm:ss'),
+      Number(event.id_msg),
+      Number(event.id_msg_type),
+      event.desc_msg,
+      parseFloat(event.lat),
+      parseFloat(event.lon),
+      event.ubicacion,
+      Number(event.vel),
+      Number(event.dtmsg),
+      event.ignicion,
+      parseFloat(event.odometro_kms),
+      Number(event.dir),
+      event.nombre_grupo,
+      id
+    ])
+
+    const result = await connection.executeMany(query, values)
+    await connection.commit()
+
+    return result
+  }
+
+  static async getReports({ id }) {
     const query = `SELECT idgps_units, lat, lon, desc_msg, odometro_kms, ignicion, dt_msg, dtmsg 
-                   FROM events 
+                   FROM reports 
                    WHERE idgps_units = :id 
-                   AND dt_msg BETWEEN TO_DATE(:dtini, 'YYYY-MM-DD HH24:MI:SS') 
-                   AND TO_DATE(:dtfin, 'YYYY-MM-DD HH24:MI:SS') 
                    ORDER BY dt_msg DESC`
 
-    const binds = { id, dtini: formattedDtini, dtfin: formattedDtfin }
-    const result = await connection.execute(query, binds, {
-      outFormat: oracledb.OUT_FORMAT_OBJECT
-    })
+    const result = await connection.execute(
+      query,
+      { id },
+      { outFormat: oracledb.OUT_FORMAT_OBJECT }
+    )
+
     return result.rows.map((row) =>
       Object.fromEntries(
         Object.entries(row).map(([key, value]) => [key.toLowerCase(), value])

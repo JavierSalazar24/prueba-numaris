@@ -1,9 +1,10 @@
 import { Router } from 'express'
-import { getEvents, getUnits } from '../controllers/index.js'
+import { getUnits, addEvents, getReports } from '../controllers/index.js'
 
 const router = Router()
 
 router.get('/units', getUnits)
-router.get('/events/:id', getEvents)
+router.get('/reports/:id', getReports)
+router.post('/events/:id', addEvents)
 
 export default router

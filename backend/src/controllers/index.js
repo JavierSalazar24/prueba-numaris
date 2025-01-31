@@ -14,14 +14,26 @@ export const getUnits = async (req, res) => {
   }
 }
 
-export const getEvents = async (req, res) => {
+export const addEvents = async (req, res) => {
   try {
     const { id } = req.params
-    const { dtini, dtfin } = req.query
+    const events = req.body
 
-    const events = await UnitsModel.getEvents({ id, dtini, dtfin })
+    const reports = await UnitsModel.addEvents(events, id)
 
-    return res.status(201).json({ events })
+    return res.status(201).json({ reports })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+export const getReports = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const reports = await UnitsModel.getReports({ id })
+
+    return res.status(201).json({ reports })
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }

@@ -1,4 +1,17 @@
-const FormEvents = ({ submit, loading }) => {
+import { useEffect } from 'react'
+import { useEventStore } from '../store/useEventStore'
+import { useReports } from '../hooks/useReports'
+
+const FormEvents = ({ submit, loading, id }) => {
+  const { handleSaveReport, isLoading } = useReports()
+  const resetEvents = useEventStore((state) => state.resetEvents)
+
+  useEffect(() => {
+    resetEvents()
+  }, [resetEvents])
+
+  const events = useEventStore((state) => state.events)
+
   return (
     <form
       className='space-y-4 mb-6 bg-gray-800 p-6 rounded-lg shadow-md'
@@ -40,6 +53,16 @@ const FormEvents = ({ submit, loading }) => {
       >
         {loading ? 'Generando reporte...' : 'Generar Reporte'}
       </button>
+
+      {events.length > 0 && (
+        <button
+          className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed disabled:text-gray-400'
+          onClick={() => handleSaveReport(id)}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Guardando reporte...' : 'Guardar reporte'}
+        </button>
+      )}
     </form>
   )
 }
