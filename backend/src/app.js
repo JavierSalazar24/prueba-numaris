@@ -3,6 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import unitsRoutes from './routes/index.js'
 import cors from 'cors'
+import path from 'path'
 
 const app = express()
 app.use(bodyParser.json({ limit: '10mb' }))
