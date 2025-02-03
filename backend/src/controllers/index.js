@@ -1,4 +1,4 @@
-import { UnitsModel } from '../models/oracle.js'
+import { UnitsModel } from '../models/mysql.js'
 
 export const getUnits = async (req, res) => {
   try {
