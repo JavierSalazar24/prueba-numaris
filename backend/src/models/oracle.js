@@ -65,7 +65,7 @@ export class UnitsModel {
       Number(event.vel),
       Number(event.dtmsg),
       event.ignicion,
-      parseFloat(event.odometro_kms),
+      parseFloat(event.odometro_kms ?? 0),
       Number(event.dir),
       event.nombre_grupo,
       id

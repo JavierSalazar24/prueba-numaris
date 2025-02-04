@@ -52,7 +52,7 @@ export class UnitsModel {
       event.vel,
       event.dtmsg,
       event.ignicion,
-      event.odometro_kms.replaceAll(',', ''),
+      event.odometro_kms?.replaceAll(',', '') ?? '0',
       event.dir,
       event.nombre_grupo,
       id
